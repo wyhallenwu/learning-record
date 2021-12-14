@@ -18,13 +18,14 @@ class Model(nn.Module):
         self.layer1 = nn.Linear(1, 1)
         self.layer2 = nn.Linear(1, 1)
         self.layer3 = nn.Linear(1, 1)
-    def forward(self, x):
-        out = F.relu(self.layer1(x))
-        out = F.relu(self.layer2(x))
-        out = F.relu(self.layer3(x))
+    def forward(self, x_, k):
+        out = F.relu(self.layer1(x_[k]))
+        out = F.relu(self.layer2(x_[k]))
+        out = F.relu(self.layer3(x_[k]))
         return out
 
 model = Model()
+pred_y = model.forward(x_)
 
 # loss
 loss_fn = nn.MSELoss()
@@ -39,7 +40,8 @@ i = 0
 while(i <= epoch):
     for iters in range(x_.size()):
         optimizer.step()
-        pred_y = model.forward(x[iters])
+        pred_y = model.forward(x_, iter)
         loss = loss_fn(y_[iters], pred_y)
         print(f'loss in {i}_epoch {iters}_iter: {loss}')
+        i += 1
     
