@@ -1,40 +1,45 @@
 import numpy as np
 import torch
 import torch.nn as nn
-x = torch.randn(10, 3, requires_grad = True)
-# w = torch.randn(12, 10, requires_grad = True)
-b = torch.randn(10, 10)
+import torch.nn.functional as F
+# estimate y = x^2
+x = np.linspace(0, 10, 50)
+y = np.array([i ** 2 for i in x])
+print(y)
 
-data = np.random.uniform(0, 3, (100, 10, 10))
-# print(data)
-y = torch.from_numpy(data).float()
-print(x)
-print(y.type(), b.size())
-# y = torch.mm(w, x) + b
-# prsint(y)
+x_ = torch.from_numpy(x)
+y_ = torch.from_numpy(y)
 
-# model 
-model = nn.Linear(3, 10)
+# model
+# model = nn.Linear()
+class Model(nn.Module):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.layer1 = nn.Linear(1, 1)
+        self.layer2 = nn.Linear(1, 1)
+        self.layer3 = nn.Linear(1, 1)
+    def forward(self, x):
+        out = F.relu(self.layer1(x))
+        out = F.relu(self.layer2(x))
+        out = F.relu(self.layer3(x))
+        return out
 
-# optimizer
-optimizer = torch.optim.SGD(model.parameters(), lr = 1e-3)
+model = Model()
 
 # loss
-loss = nn.MSELoss()
+loss_fn = nn.MSELoss()
+loss = loss_fn(y_, pred_y)
+loss.backward()
 
-def forward(x):
-    return model(x) + b
+# optimizer
+optimizer = nn.optim.SGD(model.parameters(), lr = 0.01)
 
-pred_y = forward(x)
-
-pred_loss = loss(pred_y, y)
-
-epoch = 10
-batch_size = 10
-
-for i in range(10):
-    optimizer.step()
-    pred_y = forward(x)
-    pred_loss = loss(pred_y, y)
-    pred_loss.backward()
-    print(f'loss after {i} optim is: {pred_loss}')
+epoch =  10
+i = 0
+while(i <= epoch):
+    for iters in range(x_.size()):
+        optimizer.step()
+        pred_y = model.forward(x[iters])
+        loss = loss_fn(y_[iters], pred_y)
+        print(f'loss in {i}_epoch {iters}_iter: {loss}')
+    
