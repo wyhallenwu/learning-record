@@ -5,9 +5,9 @@ x = torch.randn(10, 3, requires_grad = True)
 # w = torch.randn(12, 10, requires_grad = True)
 b = torch.randn(10, 10)
 
-y_ = np.random.uniform(0, 3, (100, 10, 10))
-print(y_)
-y = torch.from_numpy(y_).float()
+data = np.random.uniform(0, 3, (100, 10, 10))
+# print(data)
+y = torch.from_numpy(data).float()
 print(x)
 print(y.type(), b.size())
 # y = torch.mm(w, x) + b
