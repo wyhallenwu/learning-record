@@ -7,7 +7,7 @@ labels = torch.rand(1, 1000)
 
 prediction = model(data)
 
-loss = (prediction - labels).sum()
+loss = (prediction - labels).sum() / labels.size()[1]
 loss.backward()
 
 optim = torch.optim.SGD(model.parameters(), lr = 1e-2, momentum = 0.9)
