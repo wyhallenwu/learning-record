@@ -34,11 +34,13 @@ print(z3)
 
 # torch.bmm(): support vec1=B*n*m and vec2=B*m*k where B is usually batch-size
 # B must be the same
-x4 = torch.randn(2, 3)
-y4 = torch.randn(3, 2)
+x4 = torch.randn(12, 1).reshape(2, 2, 3)
+y4 = torch.randn(12, 1).reshape(2, 3, 2)
+z4 = torch.bmm(x4, y4)
+print(z4)
 
 # torch.matmul(): support broadcast
 x5 = torch.randn(3, 3)
-y5 = torch.randn(3, 1)
+y5 = torch.randn(3, 4)
 z5 = torch.matmul(x5, y5)
 print(z5, z5.size())
