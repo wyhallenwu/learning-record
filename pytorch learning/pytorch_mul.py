@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 """ 
 How pytorch do multiply 
